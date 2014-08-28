@@ -3,6 +3,8 @@ package gorillaGame;
 import java.awt.Color;
 import java.awt.Rectangle;
 
+import objects.Shadow;
+
 public class ShadowTester {
 	
 	private Shadow my_shadow;
