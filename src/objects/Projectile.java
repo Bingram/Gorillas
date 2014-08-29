@@ -5,7 +5,7 @@ import java.awt.Rectangle;
 
 import javax.swing.ImageIcon;
 
-public class Projectile {
+public class Projectile extends Object {
 
 	private String imageName;
 	
@@ -13,7 +13,7 @@ public class Projectile {
 	
 	private Rectangle shadow;
 	
-	private int x,y, dx, dy, width, height;
+	private int dx, dy;
 	private double time = 0;
 	
 	private int x0;

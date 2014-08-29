@@ -12,6 +12,19 @@ import javax.imageio.ImageIO;
 
 public class Shadow {
 	
+	/**
+	 * See this page for getting polygon from image edges
+	 * http://boofcv.org/index.php?title=Example_Fit_Polygon
+	 * http://www.pages.drexel.edu/~nk752/Research/cannyTut2.html
+	 * 
+	 * For now just implement a basic polygon shape scaled to height/width
+	 */
+	
+	/**
+	 * Projectile motion with Air resistance
+	 * http://farside.ph.utexas.edu/teaching/336k/Newtonhtml/node29.html
+	 */
+	
 	Pixel[][] my_shadow; 
 	
 	private int WIDTH = 1280; //Columns
