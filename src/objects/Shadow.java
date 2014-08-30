@@ -21,6 +21,11 @@ public class Shadow {
 	 */
 	
 	/**
+	 * Collision detection
+	 * http://gamedevelopment.tutsplus.com/tutorials/quick-tip-use-quadtrees-to-detect-likely-collisions-in-2d-space--gamedev-374
+	 */
+	
+	/**
 	 * Projectile motion with Air resistance
 	 * http://farside.ph.utexas.edu/teaching/336k/Newtonhtml/node29.html
 	 */
