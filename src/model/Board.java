@@ -1,4 +1,4 @@
-package objects;
+package model;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -18,8 +18,15 @@ import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import gorillaGame.ImageExport;
-import gorillaGame.SoundPlayer;
+import objects.Building;
+import objects.Hit;
+import objects.Pixel;
+import objects.Player;
+import objects.Projectile;
+import objects.Shadow;
+import objects.Sun;
+import media.ImageExport;
+import media.SoundPlayer;
 
 public class Board extends Observable  {
 	private Projectile projectile;
@@ -46,7 +53,7 @@ public class Board extends Observable  {
 	
 	private SoundPlayer sound;
 	
-	private String IMPACT = "gorillaGame/stomp.wav";
+	private String IMPACT = "media/stomp.wav";
 	
 	private String KILL;
 	

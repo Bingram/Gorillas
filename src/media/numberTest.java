@@ -1,4 +1,4 @@
-package gorillaGame;
+package media;
 
 public class numberTest {
 	

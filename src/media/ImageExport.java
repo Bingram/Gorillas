@@ -1,4 +1,4 @@
-package gorillaGame;
+package media;
 
 import java.awt.Color;
 import java.awt.Font;

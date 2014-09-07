@@ -3,7 +3,7 @@ package controller;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import objects.Board;
+import model.Board;
 import view.BoardPanel;
 
 
@@ -32,9 +32,9 @@ public class Game extends JFrame {
         
         startGame();
         
-        my_board.castShadows();
+       // my_board.castShadows();
         
-        my_board_panel.printMyShadow();
+        //my_board_panel.printMyShadow();
         
     }
 	
@@ -47,7 +47,7 @@ public class Game extends JFrame {
 		
 		/**
 		 
-		//set scale *TEMP*
+		//set speed scale *TEMP*
 		my_board_panel.setScale(Double.parseDouble(JOptionPane.showInputDialog(
 	               this,
 	              "Scale?",
@@ -77,7 +77,7 @@ public class Game extends JFrame {
                 JOptionPane.PLAIN_MESSAGE);
 		
 		//check for blank entry
-		if(p2_name.equals("")){
+		if(p2_name.equals("")){//may want to run a better filter
 			p2_name = "Player 2";
 		}
 		

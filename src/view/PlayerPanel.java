@@ -10,7 +10,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import objects.Board;
+import model.Board;
 import objects.Player;
 
 public class PlayerPanel extends JPanel implements Observer{

@@ -12,7 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import objects.Board;
+import model.Board;
 import objects.Building;
 import objects.Hit;
 import objects.Player;
