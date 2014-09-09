@@ -14,7 +14,7 @@ public class Projectile extends Object {
 	private Rectangle shadow;
 	
 	private int dx, dy;
-	private double time = 0;
+	private double oldTime = 0;
 	
 	private int x0;
 	private int y0;
@@ -22,6 +22,8 @@ public class Projectile extends Object {
 	private double g = 9.81;
 	private double velo = 0;
 	private double theta = 0;
+	
+	private double time;
 	
 	private boolean visible;
 	
@@ -37,6 +39,8 @@ public class Projectile extends Object {
 		
 		x = x0 = initX;
 		y = y0 = initY;
+		
+		time = System.currentTimeMillis();
 		
 		shadow = new Rectangle(x,y, width, height/2);
 	}
@@ -108,7 +112,7 @@ public class Projectile extends Object {
 	public void reset(){
 		x = x0;
 		y = y0;
-		time = 0;
+		time = System.currentTimeMillis() - System.currentTimeMillis();
 	}
 	
 	public void posCalc(int p){
@@ -142,7 +146,7 @@ public class Projectile extends Object {
 	}
 	
 	public void setTime(double t){
-		time += t;
+		time += 1;
 	}
 	
 	protected void changeAmmo(String name){
@@ -155,6 +159,28 @@ public class Projectile extends Object {
 
 	public void setVisible(boolean vis) {
 		visible = vis;
+	}
+
+	public void update(int player) {
+		// TODO Auto-generated method stub
+		
+		double vX0 = velo * Math.cos(theta);
+    	double vY0 = velo * Math.sin(theta);
+    	
+    	double diff = System.currentTimeMillis() - time;
+    	time = System.currentTimeMillis();
+    	
+    	dx = (int) ( vX0);
+    	dy = (int) (vY0 - ((g*Math.pow(diff, 2))/2));
+    	
+    	if(player == 1){
+    		x += dx;
+    	} else if(player == 2){
+    		x -= dx;
+    	}
+    	
+    	y -= dy;
+		
 	}
 	
 }

@@ -39,7 +39,7 @@ public class BoardPanel extends JPanel implements Runnable {
 	
 	private int wins;
 
-	private double scale = 0.1;
+	private double scale = (1.00);
     
     private int bldg_height_start;
     
@@ -234,7 +234,6 @@ public class BoardPanel extends JPanel implements Runnable {
         
         while(game_board.isIngame()){
         	
-        	repaint();
         	
         	if(game_board.getCurrentPlayer().getScore() == this.getWins()){
             	
@@ -282,8 +281,9 @@ public class BoardPanel extends JPanel implements Runnable {
 	        		Player p = game_board.getCurrentPlayer();
 	        		int player = p.getPlayerNumber();
 	        		
-		            game_board.getProjectile().setTime(scale);        	
-			        game_board.getProjectile().posCalc(player);
+		            //game_board.getProjectile().setTime(scale);        	
+			        //game_board.getProjectile().posCalc(player);
+			        game_board.getProjectile().update(player);
 	        	}
 		        
 	            	            
@@ -296,13 +296,16 @@ public class BoardPanel extends JPanel implements Runnable {
 			p2_score.setText("Score| " + game_board.getP2().getScore());
 	        
 	       
-	        timeDiff = System.currentTimeMillis() - beforeTime;
-	        sleep = DELAY - timeDiff;
+	        //timeDiff = System.currentTimeMillis() - beforeTime;
+	        //sleep = DELAY - timeDiff;
 	
-	        if (sleep < 0)
-	            sleep = 2;
+	        //if (sleep < 0)
+	          //  sleep = 2;
+			
+			repaint();
+			
 	        try {
-	            Thread.sleep(sleep);
+	            Thread.sleep(17);
 	        } catch (InterruptedException e) {
 	            System.out.println("interrupted");
 	        }
