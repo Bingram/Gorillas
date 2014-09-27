@@ -30,6 +30,8 @@ public class Projectile extends Object {
 	public Projectile(int initX, int initY){
 		imageName = "banana_sml.png";
 		
+		type = "PROJECTILE";
+		
 		ii = new ImageIcon(this.getClass().getResource(imageName));
 		
 		width = getImage().getWidth(null);

@@ -3,7 +3,7 @@ package objects;
 import java.awt.Color;
 import java.awt.Rectangle;
 
-public class Building {
+public class Building extends Object {
 
 	private int y;
 	private int x;
@@ -20,6 +20,7 @@ public class Building {
 	
 	public Building(int yPos){
 			
+		type = "BUILDING";
 		y = yPos;
 		height = yPos;
 		myShape = new Rectangle(x, 800 - getHeight(), width, yPos);

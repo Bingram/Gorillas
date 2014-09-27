@@ -3,7 +3,7 @@ package objects;
 import java.awt.Color;
 import java.awt.Rectangle;
 
-public class Hit {
+public class Hit extends Object {
 
 	private int xPos;
 	private int yPos;
@@ -15,6 +15,8 @@ public class Hit {
 	private int height;
 		
 	public Hit(int x, int y){
+		type = "HIT";
+		
 		xPos = x;
 		yPos = y;
 		

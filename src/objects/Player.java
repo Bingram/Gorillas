@@ -5,7 +5,7 @@ import java.awt.Rectangle;
 
 import javax.swing.ImageIcon;
 
-public class Player {
+public class Player extends Object {
 
 	private String imageName;
 	
@@ -20,6 +20,9 @@ public class Player {
 	private boolean visible;
 	
 	public Player(String name){
+		
+		type = "PLAYER";
+		
 		setPlayerName(name);
 		
 		imageName = "gorilla_sml_p1.png";

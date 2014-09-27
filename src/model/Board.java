@@ -11,6 +11,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Stack;
 
@@ -23,6 +24,7 @@ import objects.Hit;
 import objects.Pixel;
 import objects.Player;
 import objects.Projectile;
+import objects.Quadtree;
 import objects.Shadow;
 import objects.Sun;
 import media.ImageExport;
@@ -34,6 +36,8 @@ public class Board extends Observable  {
 	private ArrayList<Hit> blastSites = new ArrayList<Hit>();
 	
 	private Building[] buildings = new Building[8];
+	
+	private List<Object> the_objects;
 	
 	private Shadow my_shadow;
 	
@@ -117,6 +121,7 @@ public class Board extends Observable  {
     		} else {
     			buildings[i].setPaint(Color.GRAY);
     		}
+    		
     	}
         
         //Set p1 inset from left
@@ -137,10 +142,22 @@ public class Board extends Observable  {
     	//pre-load impact sound, removes initial lag on first hit
     	sound.preLoad(IMPACT);
     	
+    	addObjects();
     	
     	//TODO - Test Out JPEG
     	my_shadow.shadowPrint();
                 
+    }
+    
+    //Add all objects to list for quadtree collision detection
+    private void addObjects(){
+    	
+    	for(Building b: buildings){
+    		the_objects.add(b);
+    	}
+    	
+    	the_objects.add(targetPlayer);
+    	the_objects.add(sunny);
     }
     
     public void printShadow(){
@@ -177,6 +194,38 @@ public class Board extends Observable  {
      * @return boolean of hit/no-hit
      */
     public boolean collisionCheck(){
+    	
+    	//QUAD-tree version
+    	
+    	Rectangle the_projectile = projectile.getBounds();
+    	
+    	Quadtree the_quad = new Quadtree(0, new Rectangle(0,0,1280,800) );
+    	
+    	the_quad.clear();
+    	
+    	for (int i = 0; i < the_objects.size(); i++) {
+    		the_quad.insert((objects.Object)the_objects.get(i));
+    	}
+    	
+    	List<objects.Object> returnObjects = new ArrayList<objects.Object>();
+    	
+	    returnObjects.clear();
+	    returnObjects = the_quad.retrieve(returnObjects, projectile);
+	 
+	    for (int x = 0; x < returnObjects.size(); x++) {
+	    
+		    //TODO Collision detection goes here
+		    String type = returnObjects.get(x).getMyType();
+		    switch (type) {
+            	case "PLAYER":
+            	case "BUILDING":
+            	case "SUNNY":
+		    }
+        	  	
+        	  			
+		  
+	    }
+    	
     	
     	/**
     	 * SHADOW VERSION
