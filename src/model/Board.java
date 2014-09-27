@@ -111,7 +111,7 @@ public class Board extends Observable  {
         for(int i = 0; i < 8; i++){
     		buildings[i] = new Building(yPoints[i]);
     		if(i%2 == 1){
-    			buildings[i].setPaint(Color.DARK_GRAY);
+   			buildings[i].setPaint(Color.BLUE);
     		} else if(i%3 == 1){
     			buildings[i].setPaint(Color.LIGHT_GRAY);
     		} else {
@@ -139,7 +139,7 @@ public class Board extends Observable  {
     	
     	
     	//TODO - Test Out JPEG
-    	my_shadow.shadowPrint();
+    	//my_shadow.shadowPrint();
                 
     }
     
@@ -198,7 +198,7 @@ public class Board extends Observable  {
     	 */
     	
     	//new rectangle using bounds of projectile
-    	 Rectangle r3 = new Rectangle(projectile.getX(), projectile.getY(), projectile.getWidth(), projectile.getHeight());
+    	 Rectangle r3 = new Rectangle((int)projectile.getX(), (int)projectile.getY(), projectile.getWidth(), projectile.getHeight());
 
     	  
     	 //value to return, false unless intersection is true
@@ -388,36 +388,6 @@ public class Board extends Observable  {
     	//Make new projectile at new current player
     	projectile = new Projectile(currentPlayer.getX(), currentPlayer.getY());
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     private String point(){
     	return pointMain(my_shadow.getPixel(0, 0));

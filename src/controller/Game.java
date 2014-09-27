@@ -4,7 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import model.Board;
-import view.BoardPanel;
+import view.BoardView;
 
 
 public class Game extends JFrame {
@@ -16,7 +16,7 @@ public class Game extends JFrame {
 	private Board my_board;
 	
 	//panel for board
-	private BoardPanel my_board_panel;
+	private BoardView my_board_panel;
 
 	public Game() {
 
@@ -86,7 +86,7 @@ public class Game extends JFrame {
 		my_board.getP2().setPlayerName(p2_name);
 		
 		//add the board
-		my_board_panel = new BoardPanel(my_board);
+		my_board_panel = new BoardView(my_board);
 		
 		//set size of board panel
 		my_board_panel.setSize(1280, 800);

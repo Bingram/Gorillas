@@ -16,8 +16,9 @@ import model.Board;
 import objects.Building;
 import objects.Hit;
 import objects.Player;
+import objects.Projectile;
 
-public class BoardPanel extends JPanel implements Runnable {
+public class BoardView extends JPanel implements Runnable {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -45,7 +46,7 @@ public class BoardPanel extends JPanel implements Runnable {
     
     private Boolean WINNER = false;
 	
-	public BoardPanel(Board the_board){
+	public BoardView(Board the_board){
 		
 		super();
 		
@@ -135,7 +136,7 @@ public class BoardPanel extends JPanel implements Runnable {
 	        	
 	        	//draw each building
 	        	g2d.setColor(b.getPaint());
-	        	g2d.fillRect(bldg_height_start-1, 800 - b.getyPos()+1, b.getWidth()-1, b.getHeight()-1);
+	        	g2d.fillRect(bldg_height_start-1, 800 - b.getyPos(), b.getWidth()-2, b.getHeight()-1);
 	        	
 	        	b.setxPos(bldg_height_start);
 	        	b.setShadowX(bldg_height_start);
@@ -217,7 +218,7 @@ public class BoardPanel extends JPanel implements Runnable {
         at.translate(-x, -y); // move the axis point back to the original position  
         copy.setTransform(at); // set the transform to the graphics context 
         
-        copy.drawImage(game_board.getProjectile().getImage(), game_board.getProjectile().getX(), game_board.getProjectile().getY(), this);
+        copy.drawImage(game_board.getProjectile().getImage(), (int)game_board.getProjectile().getX(), (int)game_board.getProjectile().getY(), this);
   
     }
     
@@ -266,6 +267,10 @@ public class BoardPanel extends JPanel implements Runnable {
 			               this,
 			               game_board.getCurrentPlayer().getPlayerName() + ", Shot Speed? (m/s)",
 			               JOptionPane.PLAIN_MESSAGE)));
+		        
+		        Projectile old = game_board.getProjectile();
+		        
+		       // game_board.setProjectile(new Projectile(old.getX(), old.getY()));
 						
 				game_board.setFlight(true);
 				
