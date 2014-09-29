@@ -20,9 +20,10 @@ public class Player extends Entity{
 	private boolean visible;
 	
 	public Player(String name){
-		setPlayerName(name);
 		
 		type = "PLAYER";
+		
+		setPlayerName(name);
 		
 		imageName = "gorilla_sml_p1.png";
 		

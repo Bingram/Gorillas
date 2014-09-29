@@ -122,6 +122,7 @@ public class Board extends Observable  {
     		} else {
     			buildings[i].setPaint(Color.GRAY);
     		}
+    		
     	}
         
         //Set p1 inset from left
@@ -142,10 +143,22 @@ public class Board extends Observable  {
     	//pre-load impact sound, removes initial lag on first hit
     	sound.preLoad(IMPACT);
     	
+    	addObjects();
     	
     	//TODO - Test Out JPEG
     	//my_shadow.shadowPrint();
                 
+    }
+    
+    //Add all objects to list for quadtree collision detection
+    private void addObjects(){
+    	
+    	for(Building b: buildings){
+    		allObjects.add(b);
+    	}
+    	
+    	allObjects.add(targetPlayer);
+    	allObjects.add(sunny);
     }
     
     public void printShadow(){
@@ -158,9 +171,9 @@ public class Board extends Observable  {
     	my_shadow.castShadow(p1.getShadow(), p1.getShadow().x, p1.getShadow().y);
     	my_shadow.castShadow(p2.getShadow(), p2.getShadow().x, p2.getShadow().y);
     	
-    	my_shadow.castShadow(projectile.getShadow(), projectile.getShadow().x, projectile.getShadow().y);
+    	//my_shadow.castShadow(projectile.getShadow(), projectile.getShadow().x, projectile.getShadow().y);
     	
-    	my_shadow.castShadow(sunny.getShadow(), sunny.getShadow().x, sunny.getShadow().y);
+    	//my_shadow.castShadow(sunny.getShadow(), sunny.getShadow().x, sunny.getShadow().y);
     	
     	for(Building b: buildings){
     		b.setxPos(bldg_start_x+160);
@@ -182,6 +195,7 @@ public class Board extends Observable  {
      * @return boolean of hit/no-hit
      */
     public boolean collisionCheck(){
+    	
     	
     	/**
     	 * SHADOW VERSION
@@ -213,6 +227,13 @@ public class Board extends Observable  {
     	for(int i = 0; i < returnObjects.size(); i++){
     		
     		//TODO Add collision detection here
+    		 //TODO Collision detection goes here
+		    String type = returnObjects.get(i).toString();
+		    switch (type) {
+            	case "PLAYER":
+            	case "BUILDING":
+            	case "SUNNY":
+		    }
     		
     	}
     	

@@ -3,6 +3,7 @@ package objects;
 import java.awt.Color;
 import java.awt.Rectangle;
 
+
 public class Building extends Entity {
 
 	private Color paint;
@@ -20,6 +21,7 @@ public class Building extends Entity {
 		
 		type = "BUILDING";
 			
+		type = "BUILDING";
 		y = yPos;
 		height = yPos;
 		myShape = new Rectangle(x, 800 - getHeight(), width, yPos);

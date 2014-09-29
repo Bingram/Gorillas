@@ -32,6 +32,8 @@ public class Projectile extends Entity {
 		
 		type = "PROJECTILE";
 		
+		type = "PROJECTILE";
+		
 		ii = new ImageIcon(this.getClass().getResource(imageName));
 		
 		width = getImage().getWidth(null);

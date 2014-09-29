@@ -5,7 +5,7 @@ import java.awt.Rectangle;
 
 import javax.swing.ImageIcon;
 
-public class Sun {
+public class Sun extends Entity{
 
 	private ImageIcon ii;
 	
