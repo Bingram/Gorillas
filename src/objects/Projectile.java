@@ -5,7 +5,7 @@ import java.awt.Rectangle;
 
 import javax.swing.ImageIcon;
 
-public class Projectile extends Object {
+public class Projectile extends Entity {
 
 	private String imageName;
 	
@@ -29,6 +29,8 @@ public class Projectile extends Object {
 	
 	public Projectile(int initX, int initY){
 		imageName = "banana_sml.png";
+		
+		type = "PROJECTILE";
 		
 		ii = new ImageIcon(this.getClass().getResource(imageName));
 		
@@ -162,16 +164,16 @@ public class Projectile extends Object {
 	}
 
 	public void update(int player) {
-		// TODO Auto-generated method stub
+		// TODO Time scaling relative to frame rate
 		
 		double vX0 = velo * Math.cos(theta);
     	double vY0 = velo * Math.sin(theta);
     	
     	double diff = System.currentTimeMillis() - time;
     	time = System.currentTimeMillis();
-    	
+    	oldTime += 0.2;
     	dx = (int) ( vX0);
-    	dy = (int) (vY0 - ((g*Math.pow(diff, 2))/2));
+    	dy = (int) (vY0 - ((g*Math.pow(oldTime, 2))/2));
     	
     	if(player == 1){
     		x += dx;

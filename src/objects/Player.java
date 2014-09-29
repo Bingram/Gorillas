@@ -5,13 +5,13 @@ import java.awt.Rectangle;
 
 import javax.swing.ImageIcon;
 
-public class Player {
+public class Player extends Entity{
 
 	private String imageName;
 	
 	private String playerName;
 	
-	private int playerNumber, width, height, x, y, score;
+	private int playerNumber, width, height, score;
 	
 	private Rectangle shadow;
 	
@@ -21,6 +21,8 @@ public class Player {
 	
 	public Player(String name){
 		setPlayerName(name);
+		
+		type = "PLAYER";
 		
 		imageName = "gorilla_sml_p1.png";
 		

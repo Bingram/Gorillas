@@ -235,6 +235,22 @@ public class BoardView extends JPanel implements Runnable {
         
         while(game_board.isIngame()){
         	
+        	if(game_board.isFlight()) {
+	        	
+	        	//Run collision check on board
+	        	//If true do skip section
+	        	if(!game_board.collisionCheck()){
+	        		
+	        		Player p = game_board.getCurrentPlayer();
+	        		int player = p.getPlayerNumber();
+	        		
+		            //game_board.getProjectile().setTime(scale);        	
+			        //game_board.getProjectile().posCalc(player);
+			        game_board.getProjectile().update(player);
+	        	}
+		        
+	            	            
+	        }
         	
         	if(game_board.getCurrentPlayer().getScore() == this.getWins()){
             	
@@ -278,21 +294,7 @@ public class BoardView extends JPanel implements Runnable {
 	    	 }
 			
 				
-	        if(game_board.isFlight()) {
-	        	
-	        	
-	        	if(!game_board.collisionCheck()){
-	        		
-	        		Player p = game_board.getCurrentPlayer();
-	        		int player = p.getPlayerNumber();
-	        		
-		            //game_board.getProjectile().setTime(scale);        	
-			        //game_board.getProjectile().posCalc(player);
-			        game_board.getProjectile().update(player);
-	        	}
-		        
-	            	            
-	        }
+	        
 	        
 	        
 	        
@@ -317,6 +319,8 @@ public class BoardView extends JPanel implements Runnable {
 	
 	        beforeTime = System.currentTimeMillis();
         }
+        
+        //TODO	add some new menu for end game
         
     }
     

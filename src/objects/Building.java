@@ -3,10 +3,8 @@ package objects;
 import java.awt.Color;
 import java.awt.Rectangle;
 
-public class Building {
+public class Building extends Entity {
 
-	private int y;
-	private int x;
 	private Color paint;
 	
 	private Rectangle myShape;
@@ -19,6 +17,8 @@ public class Building {
 	
 	
 	public Building(int yPos){
+		
+		type = "BUILDING";
 			
 		y = yPos;
 		height = yPos;

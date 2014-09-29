@@ -11,6 +11,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Stack;
 
@@ -19,10 +20,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import objects.Building;
+import objects.Entity;
 import objects.Hit;
 import objects.Pixel;
 import objects.Player;
 import objects.Projectile;
+import objects.Quadtree;
 import objects.Shadow;
 import objects.Sun;
 import media.ImageExport;
@@ -34,6 +37,8 @@ public class Board extends Observable  {
 	private ArrayList<Hit> blastSites = new ArrayList<Hit>();
 	
 	private Building[] buildings = new Building[8];
+	
+	private List<Entity> allObjects = new ArrayList<Entity>();
 	
 	private Shadow my_shadow;
 	
@@ -191,6 +196,25 @@ public class Board extends Observable  {
     	//add point if player hit
     	//set flags
     	
+    	Quadtree quad = new Quadtree(0, new Rectangle(0,0,1280,800));
+    	
+    	quad.clear();
+    	
+    	for (int i = 0; i < allObjects.size(); i++){
+    		quad.insert(allObjects.get(i).getRectangle());
+    	}
+    	
+    	List<Rectangle> returnObjects = new ArrayList<Rectangle>();
+    	
+    	returnObjects.clear();
+    	
+    	returnObjects.addAll(quad.retrieve(returnObjects, projectile.getRectangle()));
+    	
+    	for(int i = 0; i < returnObjects.size(); i++){
+    		
+    		//TODO Add collision detection here
+    		
+    	}
     	
     	////////////////////////////////////////////////
     	/**
