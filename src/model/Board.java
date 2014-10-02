@@ -159,6 +159,8 @@ public class Board extends Observable  {
     	
     	allObjects.add(targetPlayer);
     	allObjects.add(sunny);
+    	
+    	System.out.println("Objects added \n");
     }
     
     public void printShadow(){
@@ -210,29 +212,88 @@ public class Board extends Observable  {
     	//add point if player hit
     	//set flags
     	
+    	 //value to return, false unless intersection is true
+    	 boolean value = false;
+    	
     	Quadtree quad = new Quadtree(0, new Rectangle(0,0,1280,800));
     	
     	quad.clear();
     	
+    	System.out.println("Number of total Objects: " + allObjects.size());
+    	
     	for (int i = 0; i < allObjects.size(); i++){
     		quad.insert(allObjects.get(i).getRectangle());
+    		System.out.println("Object" + i + " inserted to Quad \n");
     	}
     	
     	List<Rectangle> returnObjects = new ArrayList<Rectangle>();
     	
     	returnObjects.clear();
     	
-    	returnObjects.addAll(quad.retrieve(returnObjects, projectile.getRectangle()));
+    	//Currently modifies the list of objects, 
+    	//need to change this so it gets a return value instead
+    	quad.retrieve(returnObjects, projectile.getRectangle());
+    	
+    	if(returnObjects.isEmpty()){System.out.println("No objects can collide with projectile+++ \n");}
     	
     	for(int i = 0; i < returnObjects.size(); i++){
+    		System.out.println("Checking objects... \n");
+    		System.out.println("Number of returned Objects: " + returnObjects.size());
+    		Rectangle bomb = projectile.getRectangle();
+    		Rectangle target = returnObjects.get(i);
     		
     		//TODO Add collision detection here
     		 //TODO Collision detection goes here
+    		
+    		if(bomb.intersects(target)){
+    			System.out.println("Quad tree detected a hit \n");
+    		 //play impact sound
+   			 sound.play(IMPACT);
+           	 
+           	 Rectangle hit = bomb.intersection(target);
+           	
+           	 //turn off projectile
+                projectile.setVis(false);
+                projectile.reset();
+   			 
+           	 //create new hit at location of intersection
+           	 Hit h = new Hit(hit.x, hit.y);
+           	 
+           	 //set height and width of "explosion"
+           	 h.setHeight(30);
+           	 h.setWidth(30);
+           	 
+           	 //Set board in game true
+           	 inRound = true;
+           	 
+           	 //Reset flight status false
+            inFlight = false;
+            
+            //add the new hit
+            blastSites.add(h);
+
+            //collision true
+            value = true;
+                
+            
+
+            }
+    		
 		    String type = returnObjects.get(i).toString();
 		    switch (type) {
             	case "PLAYER":
+            		//Add to player score
+                    currentPlayer.setScore(1);
+                    
+                    //turn off player, they got hit
+                    targetPlayer.setVis(false);
+                    
             	case "BUILDING":
+            		//do nothing currently
             	case "SUNNY":
+                    //who hit sunny?
+            		//change graphic of sun to show hit
+                    sunny.gotHit(true);
 		    }
     		
     	}
@@ -246,8 +307,7 @@ public class Board extends Observable  {
     	 Rectangle r3 = new Rectangle((int)projectile.getX(), (int)projectile.getY(), projectile.getWidth(), projectile.getHeight());
 
     	  
-    	 //value to return, false unless intersection is true
-    	 boolean value = false;
+    	
     	 
     	//hit target player
          if(r3.intersects(targetPlayer.getX(), targetPlayer.getY(), targetPlayer.getImage().getWidth(null)+5, targetPlayer.getImage().getHeight(null)+5)){
@@ -294,8 +354,7 @@ public class Board extends Observable  {
 
     		 if(r3.intersects(b.getxPos(), 800 - b.getyPos(), b.getWidth(), b.getHeight()) && projectile.isVisible()) {
             	 
-    			 //play impact sound
-    			 sound.play(IMPACT);
+    			 
     			 
     			 //create intersection rectangle
     			 Rectangle hit = r3.intersection(new Rectangle(b.getxPos(), 800 - b.getyPos(), b.getWidth(), b.getHeight()));

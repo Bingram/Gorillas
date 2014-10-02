@@ -129,10 +129,12 @@ public class Quadtree {
 	 /*
 	  * Return all objects that could collide with the given object
 	  */
+	 
+	 //Recurssive method, may be broken...
 	  public List retrieve(List returnObjects, Rectangle pRect) {
 	    int index = getIndex(pRect);
 	    if (index != -1 && nodes[0] != null) {
-	      nodes[index].retrieve(returnObjects, pRect);
+	      nodes[index].retrieve(objects, pRect);
 	    }
 	  
 	    returnObjects.addAll(objects);
