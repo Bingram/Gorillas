@@ -12,9 +12,7 @@ public class Building extends Entity {
 	
 	private Rectangle shadow;
 	
-	private int width = 160;
 	
-	private int height;
 	
 	
 	public Building(int yPos){
@@ -23,6 +21,7 @@ public class Building extends Entity {
 			
 		type = "BUILDING";
 		y = yPos;
+		width = 160;
 		height = yPos;
 		myShape = new Rectangle(x, 800 - getHeight(), width, yPos);
 		shadow =  new Rectangle(x, 800 - getHeight(), this.getWidth(), this.getHeight());
@@ -70,7 +69,7 @@ public class Building extends Entity {
 	}
 
 	public Rectangle getBounds() {
-		return new Rectangle(x, y, width, height);
+		return new Rectangle(x, y, width, 800 - height);
 	}
 	
 

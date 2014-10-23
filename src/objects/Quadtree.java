@@ -134,6 +134,7 @@ public class Quadtree {
 	  public List retrieve(List returnObjects, Rectangle pRect) {
 	    int index = getIndex(pRect);
 	    if (index != -1 && nodes[0] != null) {
+	    	System.out.println("Checking next Quadtree level \n");
 	      nodes[index].retrieve(objects, pRect);
 	    }
 	  

@@ -143,7 +143,7 @@ public class Board extends Observable  {
     	//pre-load impact sound, removes initial lag on first hit
     	sound.preLoad(IMPACT);
     	
-    	addObjects();
+    	//addObjects();
     	
     	//TODO - Test Out JPEG
     	//my_shadow.shadowPrint();
@@ -152,7 +152,7 @@ public class Board extends Observable  {
     
     //Add all objects to list for quadtree collision detection
     private void addObjects(){
-    	
+    	//allObjects.clear();
     	for(Building b: buildings){
     		allObjects.add(b);
     	}
@@ -160,7 +160,7 @@ public class Board extends Observable  {
     	allObjects.add(targetPlayer);
     	allObjects.add(sunny);
     	
-    	System.out.println("Objects added \n");
+    	//System.out.println("Objects added \n");
     }
     
     public void printShadow(){
@@ -214,16 +214,21 @@ public class Board extends Observable  {
     	
     	 //value to return, false unless intersection is true
     	 boolean value = false;
-    	
+    	 
+    	 allObjects.clear();
+    	 addObjects();
+    	 
     	Quadtree quad = new Quadtree(0, new Rectangle(0,0,1280,800));
     	
     	quad.clear();
     	
-    	System.out.println("Number of total Objects: " + allObjects.size());
+    	//System.out.println("Number of total Objects: " + allObjects.size());
     	
+    	//objects to quadtree
     	for (int i = 0; i < allObjects.size(); i++){
     		quad.insert(allObjects.get(i).getRectangle());
-    		System.out.println("Object" + i + " inserted to Quad \n");
+    		//System.out.println("Rectangle " + i + " Width: " +allObjects.get(i).getRectangle().getWidth()+ " & Height: " +allObjects.get(i).getRectangle().getHeight()+ "|");
+    		//System.out.println("Object" + i + " inserted to Quad \n");
     	}
     	
     	List<Rectangle> returnObjects = new ArrayList<Rectangle>();
@@ -234,11 +239,11 @@ public class Board extends Observable  {
     	//need to change this so it gets a return value instead
     	quad.retrieve(returnObjects, projectile.getRectangle());
     	
-    	if(returnObjects.isEmpty()){System.out.println("No objects can collide with projectile+++ \n");}
+    	//if(returnObjects.isEmpty()){System.out.println("No objects can collide with projectile+++ \n");}
     	
     	for(int i = 0; i < returnObjects.size(); i++){
-    		System.out.println("Checking objects... \n");
-    		System.out.println("Number of returned Objects: " + returnObjects.size());
+    		//System.out.println("Checking objects... \n");
+    		//System.out.println("Number of returned Objects: " + returnObjects.size());
     		Rectangle bomb = projectile.getRectangle();
     		Rectangle target = returnObjects.get(i);
     		
