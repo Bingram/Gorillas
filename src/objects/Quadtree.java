@@ -13,6 +13,8 @@ public class Quadtree {
 	  private List<Rectangle> objects;
 	  private Rectangle bounds;
 	  private Quadtree[] nodes;
+	  
+	  private List<Rectangle> temp;
 	 
 	 /*
 	  * Constructor
@@ -133,13 +135,24 @@ public class Quadtree {
 	 //Recurssive method, may be broken...
 	  public List retrieve(List returnObjects, Rectangle pRect) {
 	    int index = getIndex(pRect);
+	    
+	    System.out.println(" Checking possible targets=========\n");
+	    
+	    System.out.println(" pRect index: " + index + "\n");
+	    
+	    System.out.println(" Quad level: " + level + "\n");
+	    
 	    if (index != -1 && nodes[0] != null) {
-	    	System.out.println("Checking next Quadtree level \n");
+	    	System.out.println("======Recursive level======\n");
 	      nodes[index].retrieve(objects, pRect);
 	    }
 	  
+	    System.out.println(" Adding level " + level + " objects\n");
+	    
 	    returnObjects.addAll(objects);
-	  
+	    
+	    System.out.println(" Number of objects added: " + objects.size() + "\n");
+	    
 	    return returnObjects;
 	  }
 	   
