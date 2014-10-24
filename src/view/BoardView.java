@@ -6,6 +6,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 
 import javax.swing.JLabel;
@@ -45,6 +47,9 @@ public class BoardView extends JPanel implements Runnable {
     private int bldg_height_start;
     
     private Boolean WINNER = false;
+    
+    private int aimStart, aimFinish, aimAngle;
+    
 	
 	public BoardView(Board the_board){
 		
@@ -102,7 +107,7 @@ public class BoardView extends JPanel implements Runnable {
 		p2_name.setBounds(1140, 0, 200, 50);
 				
 		p2_score.setBounds(1140, 50, 200, 30);
-		
+				
 		setWins(3);
 	
 	}
@@ -166,6 +171,10 @@ public class BoardView extends JPanel implements Runnable {
 		        
 	        	spin(g2d, game_board.getProjectile().getBounds());
 		        
+	        } else {
+	        	
+	        	//draw shot aim graphic
+	        	aimShot(g2d);
 	        }
 	        
         } 
@@ -222,6 +231,27 @@ public class BoardView extends JPanel implements Runnable {
   
     }
     
+    private void aimShot(Graphics2D main){
+    	
+    	//http://www.dreamincode.net/forums/topic/275998-drawing-arrows-by-mouse-click-and-drag/
+    	
+    	/**
+    	 * Get point of initial click
+    	 * Start drawing line
+    	 * onMouseMoved, update second point
+    	 * calculate angle during move
+    	 * calculate "power" using line length
+    	 * 
+    	 * display angle # relative to initial click
+    	 * display "power" relative to initial click
+    	 * 
+    	 * on second mouse click send angle/power to projectile
+    	 * 
+    	 * initiate flight
+    	 */
+    	
+    }
+    
     /**
      * Thread control for animation
      */
@@ -271,8 +301,15 @@ public class BoardView extends JPanel implements Runnable {
     			JOptionPane.showMessageDialog(this, game_board.getTargetPlayer().getPlayerName() + " Wins!");	
     		}
         	
+        	//get current player projectile input
 	    	if(!game_board.isFlight() && !WINNER){
-	    	 	
+	    		
+	    		
+	    		addMouseListener(new MouseAdapter() { 
+	  	          public void mousePressed(MouseEvent me) { 
+	  	            System.out.println(me); 
+	  	          } 
+	  	        }); 
 	    		
 		        game_board.getProjectile().setTheta(Integer.parseInt(JOptionPane.showInputDialog(
 			               this,
