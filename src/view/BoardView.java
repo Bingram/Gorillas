@@ -4,11 +4,14 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.Shape;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Line2D;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -48,7 +51,11 @@ public class BoardView extends JPanel implements Runnable {
     
     private Boolean WINNER = false;
     
-    private int aimStart, aimFinish, aimAngle;
+    private int aimAngle;
+    
+    private Point aimStart, aimFinish;
+    
+    private Boolean aiming = true;
     
 	
 	public BoardView(Board the_board){
@@ -171,7 +178,7 @@ public class BoardView extends JPanel implements Runnable {
 		        
 	        	spin(g2d, game_board.getProjectile().getBounds());
 		        
-	        } else {
+	        } else if(aiming) {
 	        	
 	        	//draw shot aim graphic
 	        	aimShot(g2d);
@@ -250,6 +257,42 @@ public class BoardView extends JPanel implements Runnable {
     	 * initiate flight
     	 */
     	
+    	addMouseMotionListener(new MouseAdapter() { 
+	          public void mousePressed(MouseEvent me) { 
+	            System.out.println(me); 
+	            
+	            if(aimStart == null){
+	            	aimStart = me.getPoint();
+	            } 
+	           
+	          } 
+	          
+	          public void mouseDragged(MouseEvent me){
+	        	  aimFinish = me.getPoint();
+	          }
+	          
+	          public void mouseReleased(MouseEvent me){
+	        	  aimFinish = me.getPoint();
+	        	  //TODO
+	        	          	  
+	        	  /**
+	        	   * When mouse released take angle
+	        	   * and length to calculate distance
+	        	   * and velocity
+	        	   */
+	        	  Shape line = new Line2D.Double(aimStart, aimFinish);
+	        	  Line2D shot = (Line2D)line;
+	        	  
+	        	  //find angle of shot
+	        	  double angle = Math.atan2(        
+	        			  shot.getY2()-shot.getY1(),
+	        			  shot.getX2()-shot.getX1());
+	        	  
+	        	  
+	          }
+	          
+	        }); 
+    	
     }
     
     /**
@@ -305,11 +348,7 @@ public class BoardView extends JPanel implements Runnable {
 	    	if(!game_board.isFlight() && !WINNER){
 	    		
 	    		
-	    		addMouseListener(new MouseAdapter() { 
-	  	          public void mousePressed(MouseEvent me) { 
-	  	            System.out.println(me); 
-	  	          } 
-	  	        }); 
+	    		
 	    		
 		        game_board.getProjectile().setTheta(Integer.parseInt(JOptionPane.showInputDialog(
 			               this,
