@@ -281,6 +281,7 @@ public class BoardView extends JPanel implements Runnable {
 	        	   * and velocity
 	        	   */
 	        	  Shape line = new Line2D.Double(aimStart, aimFinish);
+	        	  
 	        	  Line2D shot = (Line2D)line;
 	        	  
 	        	  //find angle of shot
@@ -288,10 +289,12 @@ public class BoardView extends JPanel implements Runnable {
 	        			  shot.getY2()-shot.getY1(),
 	        			  shot.getX2()-shot.getX1());
 	        	  
-	        	  
+	        	  aimStart = aimFinish = null;
 	          }
 	          
 	        }); 
+    	
+    	
     	
     }
     
