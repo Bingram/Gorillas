@@ -24,7 +24,7 @@ import objects.Hit;
 import objects.Player;
 import objects.Projectile;
 
-public class BoardView extends JPanel implements Runnable, MouseMotionListener {
+public class BoardView extends JPanel implements Runnable {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -61,6 +61,12 @@ public class BoardView extends JPanel implements Runnable, MouseMotionListener {
     private Point aimStart, aimFinish;
     
     private Boolean aiming = true;
+
+	private int[] aimXPoints;
+
+	private int[] aimYPoints;
+
+	private int nPoints;
     
 	
 	public BoardView(Board the_board){
@@ -183,7 +189,9 @@ public class BoardView extends JPanel implements Runnable, MouseMotionListener {
 		        
 	        	spin(g2d, game_board.getProjectile().getBounds());
 		        
-	        } else if(aiming) {
+	        }
+	        
+	        if(aiming) {
 	        	
 	        	//draw shot aim graphic
 	        	//aimShot();
@@ -193,6 +201,9 @@ public class BoardView extends JPanel implements Runnable, MouseMotionListener {
 	        	
 	        	g2d.setColor(Color.RED);
 	        	g2d.fillRect(aimStart.x, aimStart.y, scale_width, scale_height);
+	        	
+	        	g2d.setColor(Color.BLACK);
+	        	g2d.drawPolygon(aimXPoints, aimYPoints, nPoints);
 	        }
 	        
         } 
@@ -390,47 +401,121 @@ public class BoardView extends JPanel implements Runnable, MouseMotionListener {
 	public void printMyShadow(){
 		game_board.printShadow();
 	}
-
-
-	@Override
-	public void mouseMoved(MouseEvent e) {
+	
+	private void makeArrow() {
 		// TODO Auto-generated method stub
+    	if(aimStart != null && aimFinish != null){
+    		
+    		Line2D.Double AB = new Line2D.Double(aimStart, aimFinish);
+    		
+    		int length_in_pixel;
+            double x=Math.pow((aimFinish.x - aimStart.x), 2);
+            double y=Math.pow((aimFinish.y - aimStart.y), 2);
+            length_in_pixel = (int)Math.sqrt(x+y);
+    		
+    		int width = 16;
+    		
+    		nPoints = 4;
+    		
+    		Point aLeft = moveLeft(aimStart, width/2);
+    		Point aRight = moveRight(aimStart, width/2);
+    		    		
+    		Point bLeft = moveLeft(aimFinish, width/2);
+    		Point bRight = moveRight(aimFinish, (width/2)+(length_in_pixel/3));
+    		
+    		aimXPoints = new int[]{aimStart.x, aLeft.x, bLeft.x, aimFinish.x, bRight.x, aRight.x, aimStart.x};
+    		
+    		aimYPoints = new int[]{aimStart.y, aLeft.y, bLeft.y, aimFinish.y, bRight.y, aRight.y, aimStart.y};
+    		
+    		
+    		
+    	}
 		
 	}
+    
+    private Point moveLeft(Point p, int distance){
+    	Point temp = p;
+    	
+    	temp.x -= distance;
+    	temp.y -= distance;
+    	
+    	return temp;
+    }
+    
+    private Point moveRight(Point p, int distance){
+    	Point temp = p;
+    	
+    	temp.x += distance;
+    	temp.y += distance;
+    	
+    	return temp;
+    }
+    
+    private Point moveForward90(Point p, int distance){
+    	Point temp = p;
+    	
+    	temp.x += distance;
+    	temp.y -= distance;
+    	
+    	return temp;
+    }
+    
+    private Point moveBack90(Point p, int distance){
+    	Point temp = p;
+    	
+    	temp.x += distance;
+    	temp.y -= distance;
+    	
+    	return temp;
+    }
+
+
+    private class MouseMotionListener{
+    	
+    	
+		public void mouseMoved(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		public void mousePressed(MouseEvent me) { 
+	        System.out.println(me); 
+	        
+	        if(aimStart == null){
+	        	aimStart = me.getPoint();
+	        	makeArrow();
+	        } 
+	       
+	      } 
+	      
+	    
 	
-	public void mousePressed(MouseEvent me) { 
-        System.out.println(me); 
-        
-        if(aimStart == null){
-        	aimStart = me.getPoint();
-        } 
-       
-      } 
-      
-      public void mouseDragged(MouseEvent me){
-    	  aimFinish = me.getPoint();
-      }
-      
-      public void mouseReleased(MouseEvent me){
-    	  aimFinish = me.getPoint();
-    	  //TODO
-    	          	  
-    	  /**
-    	   * When mouse released take angle
-    	   * and length to calculate distance
-    	   * and velocity
-    	   */
-    	  aimLine = new Line2D.Double(aimStart, aimFinish);
-    	  
-    	  double shotYDiff, shotXDiff;
-    	  
-    	  shotYDiff = aimLine.getY2()-aimLine.getY1();
-    	  shotXDiff = aimLine.getX2()-aimLine.getX1();
-    	  
-    	  //find angle of shot
-    	  aimAngle = Math.atan2(shotYDiff, shotXDiff);
-    	  
-    	  aimStart = aimFinish = null;
-      }
+	
+		public void mouseDragged(MouseEvent me){
+	    	  aimFinish = me.getPoint();
+	      }
+	      
+	      public void mouseReleased(MouseEvent me){
+	    	  aimFinish = me.getPoint();
+	    	  //TODO
+	    	          	  
+	    	  /**
+	    	   * When mouse released take angle
+	    	   * and length to calculate distance
+	    	   * and velocity
+	    	   */
+	    	  aimLine = new Line2D.Double(aimStart, aimFinish);
+	    	  
+	    	  double shotYDiff, shotXDiff;
+	    	  
+	    	  shotYDiff = aimLine.getY2()-aimLine.getY1();
+	    	  shotXDiff = aimLine.getX2()-aimLine.getX1();
+	    	  
+	    	  //find angle of shot
+	    	  aimAngle = Math.atan2(shotYDiff, shotXDiff);
+	    	  
+	    	  aimStart = aimFinish = null;
+	      }
+}
 
 }
