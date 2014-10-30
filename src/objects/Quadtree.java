@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Quadtree {
+	
+	private Boolean DEBUG = false;
 	 
 	  private int MAX_OBJECTS = 10;
 	  private int MAX_LEVELS = 5;
@@ -136,18 +138,18 @@ public class Quadtree {
 	  public List retrieve(List<Rectangle> returnObjects, Rectangle pRect) {
 	    int index = getIndex(pRect);
 	    
-	    System.out.println(" Checking possible targets=========\n");
+	    if(DEBUG)System.out.println(" Checking possible targets=========\n");
 	    
-	    System.out.println(" pRect index: " + index + "\n");
+	    if(DEBUG)System.out.println(" pRect index: " + index + "\n");
 	    
-	    System.out.println(" Quad level: " + level + "\n");
+	    if(DEBUG)System.out.println(" Quad level: " + level + "\n");
 	    
 	    if (index != -1 && nodes[0] != null) {
-	    	System.out.println("======Recursive level======\n");
-	    	System.out.println(" Adding level " + level + " objects\n");
+	    	if(DEBUG)System.out.println("======Recursive level======\n");
+	    	if(DEBUG)System.out.println(" Adding level " + level + " objects\n");
 	    	
 	    	returnObjects.addAll(nodes[index].objects);
-	    	System.out.println(" Number of objects added: " + nodes[index].objects.size() + "\n");
+	    	if(DEBUG)System.out.println(" Number of objects added: " + nodes[index].objects.size() + "\n");
 	    	
 	    	nodes[index].retrieve(returnObjects, pRect);
 	    }

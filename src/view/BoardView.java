@@ -60,7 +60,7 @@ public class BoardView extends JPanel implements Runnable {
     
     private Point aimStart, aimFinish;
     
-    private Boolean aiming = true;
+    private Boolean aiming = false;
 
 	private int[] aimXPoints;
 
@@ -88,7 +88,15 @@ public class BoardView extends JPanel implements Runnable {
 		
 		game_board = the_board;	
 
+		p1_score.addMouseMotionListener(new CustomMouseMotionListener());
+		p2_score.addMouseMotionListener(new CustomMouseMotionListener());
+		p1_name.addMouseMotionListener(new CustomMouseMotionListener());
+		p2_name.addMouseMotionListener(new CustomMouseMotionListener());
+		addMouseMotionListener(new CustomMouseMotionListener());
+		
 		setup();
+		
+		
 		
 	}
 	
@@ -191,7 +199,7 @@ public class BoardView extends JPanel implements Runnable {
 		        
 	        }
 	        
-	        if(aiming) {
+	        if(aiming && aimStart != null) {
 	        	
 	        	//draw shot aim graphic
 	        	//aimShot();
@@ -334,23 +342,31 @@ public class BoardView extends JPanel implements Runnable {
         	//get current player projectile input
 	    	if(!game_board.isFlight() && !WINNER){
 	    		
-	    		    		
 	    		
-		        /*game_board.getProjectile().setTheta(Integer.parseInt(JOptionPane.showInputDialog(
-			               this,
-			               game_board.getCurrentPlayer().getPlayerName() + ", Shot Angle? (Degree's)",
-			               JOptionPane.PLAIN_MESSAGE)));
-						
-		        game_board.getProjectile().setVelo(Integer.parseInt(JOptionPane.showInputDialog(
-			               this,
-			               game_board.getCurrentPlayer().getPlayerName() + ", Shot Speed? (m/s)",
-			               JOptionPane.PLAIN_MESSAGE)));*/
+	    		if(!aiming){
+	    			
+	    			
+	    			
+	    		} else {
+	    		    	    		
+			        /*game_board.getProjectile().setTheta(Integer.parseInt(JOptionPane.showInputDialog(
+				               this,
+				               game_board.getCurrentPlayer().getPlayerName() + ", Shot Angle? (Degree's)",
+				               JOptionPane.PLAIN_MESSAGE)));
+							
+			        game_board.getProjectile().setVelo(Integer.parseInt(JOptionPane.showInputDialog(
+				               this,
+				               game_board.getCurrentPlayer().getPlayerName() + ", Shot Speed? (m/s)",
+				               JOptionPane.PLAIN_MESSAGE)));
+			        
+			        game_board.setFlight(true);*/
+	    		}
 		        
 		        Projectile old = game_board.getProjectile();
 		        
 		       // game_board.setProjectile(new Projectile(old.getX(), old.getY()));
 						
-				game_board.setFlight(true);
+				
 				
 				
 	    	 }
@@ -402,16 +418,19 @@ public class BoardView extends JPanel implements Runnable {
 		game_board.printShadow();
 	}
 	
+	private int lineLength(){
+		
+		int length_in_pixel;
+        double x=Math.pow((aimFinish.x - aimStart.x), 2);
+        double y=Math.pow((aimFinish.y - aimStart.y), 2);
+        length_in_pixel = (int)Math.sqrt(x+y);
+		
+		return length_in_pixel;
+	}
+	
 	private void makeArrow() {
 		// TODO Auto-generated method stub
-    	if(aimStart != null && aimFinish != null){
-    		
-    		Line2D.Double AB = new Line2D.Double(aimStart, aimFinish);
-    		
-    		int length_in_pixel;
-            double x=Math.pow((aimFinish.x - aimStart.x), 2);
-            double y=Math.pow((aimFinish.y - aimStart.y), 2);
-            length_in_pixel = (int)Math.sqrt(x+y);
+    	if(aimStart != null && aimFinish != null){  		
     		
     		int width = 16;
     		
@@ -421,7 +440,7 @@ public class BoardView extends JPanel implements Runnable {
     		Point aRight = moveRight(aimStart, width/2);
     		    		
     		Point bLeft = moveLeft(aimFinish, width/2);
-    		Point bRight = moveRight(aimFinish, (width/2)+(length_in_pixel/3));
+    		Point bRight = moveRight(aimFinish, (width/2)+(lineLength()/3));
     		
     		aimXPoints = new int[]{aimStart.x, aLeft.x, bLeft.x, aimFinish.x, bRight.x, aRight.x, aimStart.x};
     		
@@ -468,54 +487,72 @@ public class BoardView extends JPanel implements Runnable {
     	
     	return temp;
     }
-
-
-    private class MouseMotionListener{
     	
+    
+    private  class CustomMouseMotionListener extends MouseAdapter{
+    	@Override
+    	public void mouseMoved(MouseEvent e) {
+    		// TODO Auto-generated method stub
+    		
+    	}
     	
-		public void mouseMoved(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-		
-		public void mousePressed(MouseEvent me) { 
-	        System.out.println(me); 
-	        
-	        if(aimStart == null){
-	        	aimStart = me.getPoint();
-	        	makeArrow();
-	        } 
-	       
-	      } 
-	      
-	    
+    	@Override
+    	public void mousePressed(MouseEvent me) { 
+            System.out.println(me.toString()); 
+            
+            if(aimStart == null){
+            	aimStart = me.getPoint();
+            	makeArrow();
+            } 
+            
+            repaint();
+           
+          } 
+          
+        
+
+    	@Override
+    	public void mouseDragged(MouseEvent me){
+        	  aimFinish = me.getPoint();
+        	  repaint();
+          }
+          
+    	@Override
+          public void mouseReleased(MouseEvent me){
+        	  aimFinish = me.getPoint();
+        	  //TODO
+        	          	  
+        	  /**
+        	   * When mouse released take angle
+        	   * and length to calculate distance
+        	   * and velocity
+        	   */
+        	  aimLine = new Line2D.Double(aimStart, aimFinish);
+        	  
+        	  double shotYDiff, shotXDiff;
+        	  
+        	  shotYDiff = aimLine.getY2()-aimLine.getY1();
+        	  shotXDiff = aimLine.getX2()-aimLine.getX1();
+        	  
+        	  //find angle of shot
+        	  aimAngle = Math.atan2(shotYDiff, shotXDiff);
+        	  
+        	  game_board.getProjectile().setTheta(aimAngle.intValue());
+    		  game_board.getProjectile().setVelo(lineLength()/3);
+    		  
+    		  repaint();
+        	  
+        	  aimStart = aimFinish = null;
+        	  
+        	  
+        	  
+        	  aiming = false;
+        	  
+        	  
+        	  game_board.setFlight(true);
+          }
+    }
 	
-	
-		public void mouseDragged(MouseEvent me){
-	    	  aimFinish = me.getPoint();
-	      }
-	      
-	      public void mouseReleased(MouseEvent me){
-	    	  aimFinish = me.getPoint();
-	    	  //TODO
-	    	          	  
-	    	  /**
-	    	   * When mouse released take angle
-	    	   * and length to calculate distance
-	    	   * and velocity
-	    	   */
-	    	  aimLine = new Line2D.Double(aimStart, aimFinish);
-	    	  
-	    	  double shotYDiff, shotXDiff;
-	    	  
-	    	  shotYDiff = aimLine.getY2()-aimLine.getY1();
-	    	  shotXDiff = aimLine.getX2()-aimLine.getX1();
-	    	  
-	    	  //find angle of shot
-	    	  aimAngle = Math.atan2(shotYDiff, shotXDiff);
-	    	  
-	    	  aimStart = aimFinish = null;
-	      }
-}
+    
 
 }
