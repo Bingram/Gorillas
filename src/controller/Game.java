@@ -1,5 +1,10 @@
 package controller;
 
+import java.awt.Point;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.geom.Line2D;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -11,6 +16,20 @@ public class Game extends JFrame {
 
 	//serial just because
 	private static final long serialVersionUID = 1L;
+	
+	private Double aimAngle;
+    
+    private Line2D aimLine;
+    
+    private Point aimStart, aimFinish;
+    
+    private Boolean aiming = false;
+
+	private int[] aimXPoints;
+
+	private int[] aimYPoints;
+
+	private int nPoints;
 	
 	//the board
 	private Board my_board;
@@ -101,6 +120,8 @@ public class Game extends JFrame {
         //TODO Clear Game Screen away for testing
         //setVisible(true);
         
+        addMouseMotionListener(new CustomMouseMotionListener());
+        
         pack();
         
         my_board.setIngame(true);
@@ -114,5 +135,140 @@ public class Game extends JFrame {
     	new Game();    	
     
     }
+    
+    private  class CustomMouseMotionListener extends MouseAdapter{
+    	@Override
+    	public void mouseMoved(MouseEvent e) {
+    		// TODO Auto-generated method stub
+    		
+    	}
+    	
+    	@Override
+    	public void mousePressed(MouseEvent me) { 
+            System.out.println(me.toString()); 
+            
+            if(aimStart == null){
+            	aimStart = me.getPoint();
+            	makeArrow();
+            } 
+            
+            repaint();
+           
+          } 
+          
+        
+
+    	@Override
+    	public void mouseDragged(MouseEvent me){
+        	  aimFinish = me.getPoint();
+        	  repaint();
+          }
+          
+    	@Override
+          public void mouseReleased(MouseEvent me){
+        	  aimFinish = me.getPoint();
+        	  //TODO
+        	          	  
+        	  /**
+        	   * When mouse released take angle
+        	   * and length to calculate distance
+        	   * and velocity
+        	   */
+        	  aimLine = new Line2D.Double(aimStart, aimFinish);
+        	  
+        	  double shotYDiff, shotXDiff;
+        	  
+        	  shotYDiff = aimLine.getY2()-aimLine.getY1();
+        	  shotXDiff = aimLine.getX2()-aimLine.getX1();
+        	  
+        	  //find angle of shot
+        	  aimAngle = Math.atan2(shotYDiff, shotXDiff);
+        	  
+        	  my_board.getProjectile().setTheta(aimAngle.intValue());
+    		  my_board.getProjectile().setVelo(lineLength()/3);
+    		  
+    		  repaint();
+        	  
+        	  aimStart = aimFinish = null;
+        	  
+        	  
+        	  
+        	  aiming = false;
+        	  
+        	  
+        	  my_board.setFlight(true);
+          }
+    }
+    
+    private int lineLength(){
+		
+		int length_in_pixel;
+        double x=Math.pow((aimFinish.x - aimStart.x), 2);
+        double y=Math.pow((aimFinish.y - aimStart.y), 2);
+        length_in_pixel = (int)Math.sqrt(x+y);
+		
+		return length_in_pixel;
+	}
+    
+    private void makeArrow() {
+		// TODO Auto-generated method stub
+    	if(aimStart != null && aimFinish != null){  		
+    		
+    		int width = 16;
+    		
+    		nPoints = 4;
+    		
+    		Point aLeft = moveLeft(aimStart, width/2);
+    		Point aRight = moveRight(aimStart, width/2);
+    		    		
+    		Point bLeft = moveLeft(aimFinish, width/2);
+    		Point bRight = moveRight(aimFinish, (width/2)+(lineLength()/3));
+    		
+    		aimXPoints = new int[]{aimStart.x, aLeft.x, bLeft.x, aimFinish.x, bRight.x, aRight.x, aimStart.x};
+    		
+    		aimYPoints = new int[]{aimStart.y, aLeft.y, bLeft.y, aimFinish.y, bRight.y, aRight.y, aimStart.y};
+    		
+    		
+    		
+    	}
+		
+	}
+    
+    private Point moveLeft(Point p, int distance){
+    	Point temp = p;
+    	
+    	temp.x -= distance;
+    	temp.y -= distance;
+    	
+    	return temp;
+    }
+    
+    private Point moveRight(Point p, int distance){
+    	Point temp = p;
+    	
+    	temp.x += distance;
+    	temp.y += distance;
+    	
+    	return temp;
+    }
+    
+    private Point moveForward90(Point p, int distance){
+    	Point temp = p;
+    	
+    	temp.x += distance;
+    	temp.y -= distance;
+    	
+    	return temp;
+    }
+    
+    private Point moveBack90(Point p, int distance){
+    	Point temp = p;
+    	
+    	temp.x += distance;
+    	temp.y -= distance;
+    	
+    	return temp;
+    }
+    
 	
 }

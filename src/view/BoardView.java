@@ -88,11 +88,7 @@ public class BoardView extends JPanel implements Runnable {
 		
 		game_board = the_board;	
 
-		p1_score.addMouseMotionListener(new CustomMouseMotionListener());
-		p2_score.addMouseMotionListener(new CustomMouseMotionListener());
-		p1_name.addMouseMotionListener(new CustomMouseMotionListener());
-		p2_name.addMouseMotionListener(new CustomMouseMotionListener());
-		addMouseMotionListener(new CustomMouseMotionListener());
+		
 		
 		setup();
 		
@@ -418,140 +414,24 @@ public class BoardView extends JPanel implements Runnable {
 		game_board.printShadow();
 	}
 	
-	private int lineLength(){
-		
-		int length_in_pixel;
-        double x=Math.pow((aimFinish.x - aimStart.x), 2);
-        double y=Math.pow((aimFinish.y - aimStart.y), 2);
-        length_in_pixel = (int)Math.sqrt(x+y);
-		
-		return length_in_pixel;
-	}
 	
-	private void makeArrow() {
-		// TODO Auto-generated method stub
-    	if(aimStart != null && aimFinish != null){  		
-    		
-    		int width = 16;
-    		
-    		nPoints = 4;
-    		
-    		Point aLeft = moveLeft(aimStart, width/2);
-    		Point aRight = moveRight(aimStart, width/2);
-    		    		
-    		Point bLeft = moveLeft(aimFinish, width/2);
-    		Point bRight = moveRight(aimFinish, (width/2)+(lineLength()/3));
-    		
-    		aimXPoints = new int[]{aimStart.x, aLeft.x, bLeft.x, aimFinish.x, bRight.x, aRight.x, aimStart.x};
-    		
-    		aimYPoints = new int[]{aimStart.y, aLeft.y, bLeft.y, aimFinish.y, bRight.y, aRight.y, aimStart.y};
-    		
-    		
-    		
-    	}
-		
-	}
     
-    private Point moveLeft(Point p, int distance){
-    	Point temp = p;
-    	
-    	temp.x -= distance;
-    	temp.y -= distance;
-    	
-    	return temp;
-    }
-    
-    private Point moveRight(Point p, int distance){
-    	Point temp = p;
-    	
-    	temp.x += distance;
-    	temp.y += distance;
-    	
-    	return temp;
-    }
-    
-    private Point moveForward90(Point p, int distance){
-    	Point temp = p;
-    	
-    	temp.x += distance;
-    	temp.y -= distance;
-    	
-    	return temp;
-    }
-    
-    private Point moveBack90(Point p, int distance){
-    	Point temp = p;
-    	
-    	temp.x += distance;
-    	temp.y -= distance;
-    	
-    	return temp;
-    }
-    	
-    
-    private  class CustomMouseMotionListener extends MouseAdapter{
-    	@Override
-    	public void mouseMoved(MouseEvent e) {
-    		// TODO Auto-generated method stub
-    		
-    	}
-    	
-    	@Override
-    	public void mousePressed(MouseEvent me) { 
-            System.out.println(me.toString()); 
-            
-            if(aimStart == null){
-            	aimStart = me.getPoint();
-            	makeArrow();
-            } 
-            
-            repaint();
-           
-          } 
-          
-        
 
-    	@Override
-    	public void mouseDragged(MouseEvent me){
-        	  aimFinish = me.getPoint();
-        	  repaint();
-          }
-          
-    	@Override
-          public void mouseReleased(MouseEvent me){
-        	  aimFinish = me.getPoint();
-        	  //TODO
-        	          	  
-        	  /**
-        	   * When mouse released take angle
-        	   * and length to calculate distance
-        	   * and velocity
-        	   */
-        	  aimLine = new Line2D.Double(aimStart, aimFinish);
-        	  
-        	  double shotYDiff, shotXDiff;
-        	  
-        	  shotYDiff = aimLine.getY2()-aimLine.getY1();
-        	  shotXDiff = aimLine.getX2()-aimLine.getX1();
-        	  
-        	  //find angle of shot
-        	  aimAngle = Math.atan2(shotYDiff, shotXDiff);
-        	  
-        	  game_board.getProjectile().setTheta(aimAngle.intValue());
-    		  game_board.getProjectile().setVelo(lineLength()/3);
-    		  
-    		  repaint();
-        	  
-        	  aimStart = aimFinish = null;
-        	  
-        	  
-        	  
-        	  aiming = false;
-        	  
-        	  
-        	  game_board.setFlight(true);
-          }
-    }
+
+	public Boolean getAiming() {
+		return aiming;
+	}
+
+
+	public void setAiming(Boolean aiming) {
+		this.aiming = aiming;
+	}
+
+
+	
+    	
+    
+    
 	
     
 
