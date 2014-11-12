@@ -3,6 +3,8 @@ package controller;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.geom.Line2D;
 
 import javax.swing.JFrame;
@@ -31,6 +33,8 @@ public class Game extends JFrame {
 
 	private int nPoints;
 	
+	CustomMouseMotionListener aimer;
+	
 	//the board
 	private Board my_board;
 	
@@ -38,6 +42,7 @@ public class Game extends JFrame {
 	private BoardView my_board_panel;
 
 	public Game() {
+		aimer = new CustomMouseMotionListener();
 
 		my_board = new Board();
 		
@@ -50,6 +55,8 @@ public class Game extends JFrame {
         setVisible(true);
         
         startGame();
+        
+        addMouseMotionListener(aimer);
         
        // my_board.castShadows();
         
@@ -73,6 +80,9 @@ public class Game extends JFrame {
 	               JOptionPane.PLAIN_MESSAGE)));
 	               
 	     */
+		
+		
+        
 		
 		//prompt for P1 Name
 		String p1_name = (String)JOptionPane.showInputDialog(
@@ -112,6 +122,8 @@ public class Game extends JFrame {
 		
 		//set size to match menu
 		setPreferredSize(my_board_panel.getSize());
+		
+		my_board_panel.addMouseMotionListener(aimer);
 			
         
         //add game panel
@@ -120,7 +132,7 @@ public class Game extends JFrame {
         //TODO Clear Game Screen away for testing
         //setVisible(true);
         
-        addMouseMotionListener(new CustomMouseMotionListener());
+        
         
         pack();
         
@@ -136,7 +148,7 @@ public class Game extends JFrame {
     
     }
     
-    private  class CustomMouseMotionListener extends MouseAdapter{
+    private  class CustomMouseMotionListener implements MouseMotionListener, MouseListener{
     	@Override
     	public void mouseMoved(MouseEvent e) {
     		// TODO Auto-generated method stub
@@ -145,14 +157,14 @@ public class Game extends JFrame {
     	
     	@Override
     	public void mousePressed(MouseEvent me) { 
-            System.out.println(me.toString()); 
+            System.out.println(me); 
             
             if(aimStart == null){
             	aimStart = me.getPoint();
             	makeArrow();
             } 
             
-            repaint();
+            my_board_panel.repaint();
            
           } 
           
@@ -161,7 +173,8 @@ public class Game extends JFrame {
     	@Override
     	public void mouseDragged(MouseEvent me){
         	  aimFinish = me.getPoint();
-        	  repaint();
+        	  
+        	  my_board_panel.repaint();
           }
           
     	@Override
@@ -187,7 +200,7 @@ public class Game extends JFrame {
         	  my_board.getProjectile().setTheta(aimAngle.intValue());
     		  my_board.getProjectile().setVelo(lineLength()/3);
     		  
-    		  repaint();
+    		  my_board_panel.repaint();
         	  
         	  aimStart = aimFinish = null;
         	  
@@ -198,6 +211,24 @@ public class Game extends JFrame {
         	  
         	  my_board.setFlight(true);
           }
+
+		@Override
+		public void mouseClicked(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseExited(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
     }
     
     private int lineLength(){
