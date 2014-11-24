@@ -55,8 +55,7 @@ public class Game extends JFrame {
         setVisible(true);
         
         startGame();
-        
-        addMouseMotionListener(aimer);
+
         
        // my_board.castShadows();
         
@@ -124,6 +123,7 @@ public class Game extends JFrame {
 		setPreferredSize(my_board_panel.getSize());
 		
 		my_board_panel.addMouseMotionListener(aimer);
+		my_board_panel.addMouseListener(aimer);
 			
         
         //add game panel
@@ -172,9 +172,11 @@ public class Game extends JFrame {
 
     	@Override
     	public void mouseDragged(MouseEvent me){
-        	  aimFinish = me.getPoint();
-        	  
-        	  my_board_panel.repaint();
+			aimFinish = me.getPoint();
+
+			makeArrow();
+
+		    my_board_panel.repaint();
           }
           
     	@Override

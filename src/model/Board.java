@@ -284,7 +284,7 @@ public class Board extends Observable  {
 
             }
     		
-		    String type = returnObjects.get(i).toString();
+		    /*String type = returnObjects.get(i).toString();
 		    switch (type) {
             	case "PLAYER":
             		//Add to player score
@@ -299,7 +299,7 @@ public class Board extends Observable  {
                     //who hit sunny?
             		//change graphic of sun to show hit
                     sunny.gotHit(true);
-		    }
+		    }*/
     		
     	}
     	
@@ -316,7 +316,9 @@ public class Board extends Observable  {
     	 
     	//hit target player
          if(r3.intersects(targetPlayer.getX(), targetPlayer.getY(), targetPlayer.getImage().getWidth(null)+5, targetPlayer.getImage().getHeight(null)+5)){
-        	 
+
+			 sound.play(IMPACT);
+
         	 Rectangle hit = r3.intersection(new Rectangle(targetPlayer.getX(), targetPlayer.getY(), targetPlayer.getImage().getWidth(null), targetPlayer.getImage().getHeight(null)));
         	
         	//turn off projectile
@@ -358,8 +360,8 @@ public class Board extends Observable  {
          for (Building b : buildings){
 
     		 if(r3.intersects(b.getxPos(), 800 - b.getyPos(), b.getWidth(), b.getHeight()) && projectile.isVisible()) {
-            	 
-    			 
+
+				 sound.play(IMPACT);
     			 
     			 //create intersection rectangle
     			 Rectangle hit = r3.intersection(new Rectangle(b.getxPos(), 800 - b.getyPos(), b.getWidth(), b.getHeight()));
@@ -395,9 +397,13 @@ public class Board extends Observable  {
          //who hit sunny?
          if(r3.intersects(sunny.getX(), sunny.getY(), sunny.getImage().getWidth(null) - 10, sunny.getImage().getHeight(null) - 10)){
 
+			 sound.play(IMPACT);
+
         	 //new rectangle denoting intersection of projectile and building
         	 Rectangle hit = r3.intersection(new Rectangle(sunny.getX(), sunny.getY(), sunny.getImage().getWidth(null), sunny.getImage().getHeight(null)));
-        	 
+
+
+
         	 //turn off projectile
              projectile.setVis(false);
              projectile.reset();

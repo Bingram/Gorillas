@@ -10,6 +10,7 @@ import java.awt.Shape;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
@@ -51,8 +52,9 @@ public class BoardView extends JPanel implements Runnable {
     private int bldg_height_start;
     
     private Boolean WINNER = false;
-    
-    private MouseMotionListener mouseControl;
+
+	private MouseMotionListener mouseMotions;
+	private MouseListener mouseEvents;
     
     private Double aimAngle;
     
@@ -131,6 +133,8 @@ public class BoardView extends JPanel implements Runnable {
 		p2_score.setBounds(1140, 50, 200, 30);
 				
 		setWins(3);
+
+
 	
 	}
 	
@@ -195,19 +199,27 @@ public class BoardView extends JPanel implements Runnable {
 		        
 	        }
 	        
-	        if(aiming && aimStart != null) {
+	        if(aiming != null && aimStart != null && aimFinish != null) {
 	        	
 	        	//draw shot aim graphic
-	        	//aimShot();
-	        	
-	        	int scale_height = aimStart.x - aimFinish.x;
-	        	int scale_width = aimStart.y - aimFinish.y;
-	        	
-	        	g2d.setColor(Color.RED);
-	        	g2d.fillRect(aimStart.x, aimStart.y, scale_width, scale_height);
-	        	
-	        	g2d.setColor(Color.BLACK);
-	        	g2d.drawPolygon(aimXPoints, aimYPoints, nPoints);
+				int scale_height = aimFinish.y - aimStart.y;
+				int scale_width = aimFinish.x - aimStart.x;
+
+				if(scale_height > 0){scale_height = 0;}
+				if(scale_height < -100){scale_height = -100;}
+				if(scale_width > 100){scale_width = 100;}
+				if(scale_width < 0){scale_width = 0;}
+
+				g.drawString("Scale Height: " + scale_height, aimFinish.x - 10,aimFinish.y - 10);
+				g.drawString("Scale Width: " + scale_width, aimFinish.x - 10,aimFinish.y - 20);
+
+				g.setColor(Color.RED);
+				g.fillRect(aimStart.x, aimStart.y, scale_width , scale_height);
+
+
+				g.setColor(Color.BLACK);
+
+				g.drawLine(aimStart.x, aimStart.y, aimStart.x + scale_width, aimStart.y + scale_height);
 	        }
 	        
         } 
