@@ -18,20 +18,11 @@ public class Game extends JFrame {
 
 	//serial just because
 	private static final long serialVersionUID = 1L;
-	
-	private Double aimAngle;
-    
-    private Line2D aimLine;
-    
-    private Point aimStart, aimFinish;
+
     
     private Boolean aiming = false;
 
-	private int[] aimXPoints;
 
-	private int[] aimYPoints;
-
-	private int nPoints;
 	
 	CustomMouseMotionListener aimer;
 	
@@ -159,12 +150,12 @@ public class Game extends JFrame {
     	public void mousePressed(MouseEvent me) { 
             System.out.println(me); 
             
-            if(aimStart == null){
-            	aimStart = me.getPoint();
-            	makeArrow();
-            } 
+
+			aimStart = me.getPoint();
+			makeArrow();
+
             
-            my_board_panel.repaint();
+            //my_board_panel.repaint();
            
           } 
           

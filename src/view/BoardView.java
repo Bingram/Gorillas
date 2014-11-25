@@ -378,13 +378,7 @@ public class BoardView extends JPanel implements Runnable {
 				
 				
 	    	 }
-			
-				
-	        
-	        
-	        
-	        
-	        
+
 	        p1_score.setText("Score| " + game_board.getP1().getScore());
 			p2_score.setText("Score| " + game_board.getP2().getScore());
 	        
@@ -398,7 +392,7 @@ public class BoardView extends JPanel implements Runnable {
 			repaint();
 			
 	        try {
-	            Thread.sleep(17);
+	            Thread.sleep(17);//refreshes ~60 times a second
 	        } catch (InterruptedException e) {
 	            System.out.println("interrupted");
 	        }
@@ -421,22 +415,76 @@ public class BoardView extends JPanel implements Runnable {
 	public void setWins(int w) {
 		wins = w;
 	}
-	
+
+	//Shadow hit detection command-line out
 	public void printMyShadow(){
 		game_board.printShadow();
 	}
 	
-	
-    
-
-
+	//GUI Aiming control
 	public Boolean getAiming() {
 		return aiming;
 	}
 
-
 	public void setAiming(Boolean aiming) {
 		this.aiming = aiming;
+	}
+
+	public Double getAimAngle() {
+		return aimAngle;
+	}
+
+	public void setAimAngle(Double aimAngle) {
+		this.aimAngle = aimAngle;
+	}
+
+	public Line2D getAimLine() {
+		return aimLine;
+	}
+
+	public void setAimLine(Line2D aimLine) {
+		this.aimLine = aimLine;
+	}
+
+	public Point getAimStart() {
+		return aimStart;
+	}
+
+	public void setAimStart(Point aimStart) {
+		this.aimStart = aimStart;
+	}
+
+	public Point getAimFinish() {
+		return aimFinish;
+	}
+
+	public void setAimFinish(Point aimFinish) {
+		this.aimFinish = aimFinish;
+	}
+
+	public int[] getAimXPoints() {
+		return aimXPoints;
+	}
+
+	public void setAimXPoints(int[] aimXPoints) {
+		this.aimXPoints = aimXPoints;
+	}
+
+	public int[] getAimYPoints() {
+		return aimYPoints;
+	}
+
+	public void setAimYPoints(int[] aimYPoints) {
+		this.aimYPoints = aimYPoints;
+	}
+
+	public int getnPoints() {
+		return nPoints;
+	}
+
+	@Deprecated
+	public void setnPoints(int nPoints) {
+		this.nPoints = nPoints;
 	}
 
 
