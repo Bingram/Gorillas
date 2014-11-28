@@ -147,7 +147,7 @@ public class Game extends JFrame {
     	
     	@Override
     	public void mousePressed(MouseEvent me) { 
-            System.out.println(me); 
+            //System.out.println(me);
             
 
 			my_board_panel.setAimStart(me.getPoint());
@@ -183,17 +183,22 @@ public class Game extends JFrame {
 			shotYDiff = my_board_panel.getAimLine().getY2()-my_board_panel.getAimLine().getY1();
 			shotXDiff = my_board_panel.getAimLine().getX2()-my_board_panel.getAimLine().getX1();
 
+
+			System.out.println("Input Angle: "+Math.atan2(shotYDiff, shotXDiff));
+
 			//find angle of shot
-			my_board_panel.setAimAngle(Math.atan2(shotYDiff, shotXDiff));
+			my_board_panel.setAimAngle(Math.toDegrees(Math.atan2(shotYDiff, shotXDiff))*-1);
 
 			my_board.getProjectile().setTheta(my_board_panel.getAimAngle().intValue());
-			my_board.getProjectile().setVelo(lineLength()/3);
+			my_board.getProjectile().setVelo(lineLength()/6);
+
+			System.out.println("Projectile Speed: "+my_board.getProjectile().getVelo());
+			System.out.println("Projectile Angle: "+my_board.getProjectile().getTheta());
 
 			//my_board_panel.repaint();
 
 			//aimStart = aimFinish = null;
 
-			aiming = false;
 
 
 			my_board.setFlight(true);

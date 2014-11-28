@@ -59,7 +59,7 @@ public class BoardView extends JPanel implements Runnable {
     
     private Point aimStart, aimFinish;
     
-    private Boolean aiming = false;
+    private Boolean aiming = true;
 
 	private int[] aimXPoints;
 
@@ -196,7 +196,7 @@ public class BoardView extends JPanel implements Runnable {
 		        
 	        }
 	        
-	        if(aiming != null && aimStart != null && aimFinish != null) {
+	        if(aiming != false && aimStart != null && aimFinish != null) {
 	        	
 	        	//draw shot aim graphic
 				int scale_height = aimFinish.y - aimStart.y;
@@ -207,15 +207,14 @@ public class BoardView extends JPanel implements Runnable {
 				if(scale_width > 100){scale_width = 100;}
 				if(scale_width < 0){scale_width = 0;}
 
-				g.drawString("Scale Height: " + scale_height, aimFinish.x - 10,aimFinish.y - 10);
-				g.drawString("Scale Width: " + scale_width, aimFinish.x - 10,aimFinish.y - 20);
+				g.setColor(Color.BLACK);
+				g.drawString("Angle: " + aimAngle, aimFinish.x - 10,aimFinish.y - 10);
+				g.drawString("Power: " + scale_width, aimFinish.x - 10,aimFinish.y - 20);
 
 				g.setColor(Color.RED);
 				g.fillRect(aimStart.x, aimStart.y, scale_width , scale_height);
 
-
 				g.setColor(Color.BLACK);
-
 				g.drawLine(aimStart.x, aimStart.y, aimStart.x + scale_width, aimStart.y + scale_height);
 	        }
 	        
@@ -320,7 +319,12 @@ public class BoardView extends JPanel implements Runnable {
 		            //game_board.getProjectile().setTime(scale);        	
 			        //game_board.getProjectile().posCalc(player);
 			        game_board.getProjectile().update(player);
-	        	}
+
+					aiming = false;
+	        	} else{
+					aiming = true;
+				}
+
 		        
 	            	            
 	        }
