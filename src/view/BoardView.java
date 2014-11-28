@@ -52,9 +52,6 @@ public class BoardView extends JPanel implements Runnable {
     private int bldg_height_start;
     
     private Boolean WINNER = false;
-
-	private MouseMotionListener mouseMotions;
-	private MouseListener mouseEvents;
     
     private Double aimAngle;
     
@@ -416,10 +413,7 @@ public class BoardView extends JPanel implements Runnable {
 		wins = w;
 	}
 
-	//Shadow hit detection command-line out
-	public void printMyShadow(){
-		game_board.printShadow();
-	}
+
 	
 	//GUI Aiming control
 	public Boolean getAiming() {
@@ -485,6 +479,10 @@ public class BoardView extends JPanel implements Runnable {
 	@Deprecated
 	public void setnPoints(int nPoints) {
 		this.nPoints = nPoints;
+	}
+	//Shadow hit detection command-line out
+	public void printMyShadow(){
+		game_board.printShadow();
 	}
 
 

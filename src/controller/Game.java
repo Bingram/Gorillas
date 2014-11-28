@@ -22,7 +22,6 @@ public class Game extends JFrame {
     
     private Boolean aiming = false;
 
-
 	
 	CustomMouseMotionListener aimer;
 	
@@ -151,11 +150,8 @@ public class Game extends JFrame {
             System.out.println(me); 
             
 
-			aimStart = me.getPoint();
-			makeArrow();
+			my_board_panel.setAimStart(me.getPoint());
 
-            
-            //my_board_panel.repaint();
            
           } 
           
@@ -163,46 +159,44 @@ public class Game extends JFrame {
 
     	@Override
     	public void mouseDragged(MouseEvent me){
-			aimFinish = me.getPoint();
 
-			makeArrow();
+			my_board_panel.setAimFinish(me.getPoint());
 
-		    my_board_panel.repaint();
+
           }
           
     	@Override
           public void mouseReleased(MouseEvent me){
-        	  aimFinish = me.getPoint();
-        	  //TODO
-        	          	  
-        	  /**
-        	   * When mouse released take angle
-        	   * and length to calculate distance
-        	   * and velocity
-        	   */
-        	  aimLine = new Line2D.Double(aimStart, aimFinish);
-        	  
-        	  double shotYDiff, shotXDiff;
-        	  
-        	  shotYDiff = aimLine.getY2()-aimLine.getY1();
-        	  shotXDiff = aimLine.getX2()-aimLine.getX1();
-        	  
-        	  //find angle of shot
-        	  aimAngle = Math.atan2(shotYDiff, shotXDiff);
-        	  
-        	  my_board.getProjectile().setTheta(aimAngle.intValue());
-    		  my_board.getProjectile().setVelo(lineLength()/3);
-    		  
-    		  my_board_panel.repaint();
-        	  
-        	  aimStart = aimFinish = null;
-        	  
-        	  
-        	  
-        	  aiming = false;
-        	  
-        	  
-        	  my_board.setFlight(true);
+			my_board_panel.setAimFinish(me.getPoint());
+			//TODO
+
+			/**
+			 * When mouse released take angle
+			 * and length to calculate distance
+			 * and velocity
+			 */
+			my_board_panel.setAimLine(new Line2D.Double(my_board_panel.getAimStart(), my_board_panel.getAimFinish()));
+
+
+			double shotYDiff, shotXDiff;
+
+			shotYDiff = my_board_panel.getAimLine().getY2()-my_board_panel.getAimLine().getY1();
+			shotXDiff = my_board_panel.getAimLine().getX2()-my_board_panel.getAimLine().getX1();
+
+			//find angle of shot
+			my_board_panel.setAimAngle(Math.atan2(shotYDiff, shotXDiff));
+
+			my_board.getProjectile().setTheta(my_board_panel.getAimAngle().intValue());
+			my_board.getProjectile().setVelo(lineLength()/3);
+
+			//my_board_panel.repaint();
+
+			//aimStart = aimFinish = null;
+
+			aiming = false;
+
+
+			my_board.setFlight(true);
           }
 
 		@Override
@@ -227,34 +221,36 @@ public class Game extends JFrame {
     private int lineLength(){
 		
 		int length_in_pixel;
-        double x=Math.pow((aimFinish.x - aimStart.x), 2);
-        double y=Math.pow((aimFinish.y - aimStart.y), 2);
+        double x=Math.pow((my_board_panel.getAimFinish().x - my_board_panel.getAimStart().x), 2);
+        double y=Math.pow((my_board_panel.getAimFinish().y - my_board_panel.getAimStart().y), 2);
         length_in_pixel = (int)Math.sqrt(x+y);
 		
 		return length_in_pixel;
 	}
-    
+
+	//Method to draw an arrow based on the start and finish points of a user clicking
     private void makeArrow() {
 		// TODO Auto-generated method stub
-    	if(aimStart != null && aimFinish != null){  		
-    		
+
+		/*if(aimStart != null && aimFinish != null){
+
     		int width = 16;
-    		
+
     		nPoints = 4;
-    		
+
     		Point aLeft = moveLeft(aimStart, width/2);
     		Point aRight = moveRight(aimStart, width/2);
-    		    		
+
     		Point bLeft = moveLeft(aimFinish, width/2);
     		Point bRight = moveRight(aimFinish, (width/2)+(lineLength()/3));
-    		
+
     		aimXPoints = new int[]{aimStart.x, aLeft.x, bLeft.x, aimFinish.x, bRight.x, aRight.x, aimStart.x};
-    		
+
     		aimYPoints = new int[]{aimStart.y, aLeft.y, bLeft.y, aimFinish.y, bRight.y, aRight.y, aimStart.y};
-    		
-    		
-    		
-    	}
+
+
+
+    	}*/
 		
 	}
     
