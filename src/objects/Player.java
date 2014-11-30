@@ -18,6 +18,8 @@ public class Player extends Entity{
 	private ImageIcon ii;
 
 	private boolean visible;
+
+	private String direction;
 	
 	public Player(String name){
 		
@@ -134,6 +136,13 @@ public class Player extends Entity{
 		
 		height = ii.getIconHeight();
 	}
-	
-	
+
+
+	public String getDirection() {
+		return direction;
+	}
+
+	public void setDirection(String facing) {
+		direction = facing;
+	}
 }

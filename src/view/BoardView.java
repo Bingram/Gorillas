@@ -202,14 +202,63 @@ public class BoardView extends JPanel implements Runnable {
 				int scale_height = aimFinish.y - aimStart.y;
 				int scale_width = aimFinish.x - aimStart.x;
 
-				if(scale_height > 0){scale_height = 0;}
-				if(scale_height < -100){scale_height = -100;}
-				if(scale_width > 100){scale_width = 100;}
-				if(scale_width < 0){scale_width = 0;}
+				//if current player is on left of screen
+				if(game_board.getCurrentPlayer().getDirection().equals("RIGHT")) {
+					if (scale_height > 0) {
+						//ensures scale height cannot go "below" the start point
+						scale_height = 0;
+					}
+					if (scale_height < -100) {
+						//ensures cale height cannot go "above" max of 100
+						//negative 100 due to position calculated in reverse from
+						//upper corner, so moving up decreases y-values
+						scale_height = -100;
+					}
+
+					//swap for player on right
+					if (scale_width > 100) {
+						//ensures scale cannot go further than 100 to right of start point
+						scale_width = 100;
+					}
+
+					//swap for player on right
+					if (scale_width < 0) {
+						//ensures scale cannot go to left of start point
+						scale_width = 0;
+					}
+				}
+
+				//if current player is on right of screen
+				if(game_board.getCurrentPlayer().getDirection().equals("LEFT")) {
+					if (scale_height > 0) {
+						//ensures scale height cannot go "below" the start point
+						scale_height = 0;
+					}
+					if (scale_height < -100) {
+						//ensures cale height cannot go "above" max of 100
+						//negative 100 due to position calculated in reverse from
+						//upper corner, so moving up decreases y-values
+						scale_height = -100;
+					}
+
+					//swap for player on left
+					if (scale_width < -100) {
+						//ensures scale cannot go further than 100 to right of start point
+						scale_width = 100;
+					}
+
+					//swap for player on left
+					if (scale_width > 0) {
+						//ensures scale cannot go to left of start point
+						scale_width = 0;
+					}
+				}
 
 				g.setColor(Color.BLACK);
 				g.drawString("Angle: " + aimAngle, aimFinish.x - 10,aimFinish.y - 10);
-				g.drawString("Power: " + scale_width, aimFinish.x - 10,aimFinish.y - 20);
+				g.drawString("Power: " + lineLength(), aimFinish.x - 10,aimFinish.y - 20);
+				g.drawString("Scale Height: " + scale_height, aimFinish.x - 10,aimFinish.y);
+				g.drawString("Scale Width: " + scale_width, aimFinish.x - 10,aimFinish.y + 10);
 
 				g.setColor(Color.RED);
 				g.fillRect(aimStart.x, aimStart.y, scale_width , scale_height);
@@ -271,6 +320,16 @@ public class BoardView extends JPanel implements Runnable {
         copy.drawImage(game_board.getProjectile().getImage(), (int)game_board.getProjectile().getX(), (int)game_board.getProjectile().getY(), this);
   
     }
+
+	private int lineLength(){
+
+		int length_in_pixel;
+		double x=Math.pow((aimFinish.x - aimStart.x), 2);
+		double y=Math.pow((aimFinish.y - aimStart.y), 2);
+		length_in_pixel = (int)Math.sqrt(x+y);
+
+		return length_in_pixel;
+	}
     
     private void aimShot(){
     	

@@ -79,9 +79,11 @@ public class Board extends Observable  {
     	//Default names
         p1 = new Player("");
         p1.setPlayerNumber(1);
+		p1.setDirection("RIGHT");
         
         p2 = new Player("");
         p2.setPlayerNumber(2);
+		p2.setDirection("LEFT");
         
         //Default player
         currentPlayer = p1;

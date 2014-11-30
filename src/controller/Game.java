@@ -184,7 +184,7 @@ public class Game extends JFrame {
 			shotXDiff = my_board_panel.getAimLine().getX2()-my_board_panel.getAimLine().getX1();
 
 
-			System.out.println("Input Angle: "+Math.atan2(shotYDiff, shotXDiff));
+			System.out.println("Input Angle: "+Math.toDegrees(Math.atan2(shotYDiff, shotXDiff))*-1);
 
 			//find angle of shot
 			my_board_panel.setAimAngle(Math.toDegrees(Math.atan2(shotYDiff, shotXDiff))*-1);
