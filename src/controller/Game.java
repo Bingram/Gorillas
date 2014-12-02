@@ -180,14 +180,30 @@ public class Game extends JFrame {
 
 			double shotYDiff, shotXDiff;
 
-			shotYDiff = my_board_panel.getAimLine().getY2()-my_board_panel.getAimLine().getY1();
-			shotXDiff = my_board_panel.getAimLine().getX2()-my_board_panel.getAimLine().getX1();
 
+
+
+
+
+
+
+			//find & set angle of shot
+
+			if(my_board.getCurrentPlayer().getDirection().equals("LEFT")){
+				shotYDiff = my_board_panel.getAimLine().getY1()-my_board_panel.getAimLine().getY2();
+				shotXDiff = my_board_panel.getAimLine().getX2()-my_board_panel.getAimLine().getX1();
+
+				my_board_panel.setAimAngle((Math.toDegrees(Math.atan2(shotYDiff, shotXDiff)))*-1);
+			} else {
+				shotYDiff = my_board_panel.getAimLine().getY2()-my_board_panel.getAimLine().getY1();
+				shotXDiff = my_board_panel.getAimLine().getX2()-my_board_panel.getAimLine().getX1();
+
+				my_board_panel.setAimAngle(Math.toDegrees(Math.atan2(shotYDiff, shotXDiff))*-1);
+			}
 
 			System.out.println("Input Angle: "+Math.toDegrees(Math.atan2(shotYDiff, shotXDiff))*-1);
 
-			//find angle of shot
-			my_board_panel.setAimAngle(Math.toDegrees(Math.atan2(shotYDiff, shotXDiff))*-1);
+
 
 			my_board.getProjectile().setTheta(my_board_panel.getAimAngle().intValue());
 			my_board.getProjectile().setVelo(lineLength()/6);

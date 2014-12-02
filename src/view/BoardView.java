@@ -252,6 +252,8 @@ public class BoardView extends JPanel implements Runnable {
 						//ensures scale cannot go to left of start point
 						scale_width = 0;
 					}
+
+					aimAngle =- 90.0;
 				}
 
 				g.setColor(Color.BLACK);
